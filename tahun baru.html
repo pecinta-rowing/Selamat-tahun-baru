@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selamat Tahun Baru 2026!</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0a0a2a 0%, #1a1a4a 50%, #2d1b69 100%);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0;
+            animation: fadeIn 2s ease-out;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #FFD700, #FF8C00, #FF1493);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .countdown-container {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: slideInLeft 1.5s ease-out;
+        }
+
+        .countdown-title {
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 25px;
+            color: #FFD700;
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: space-between;
+            text-align: center;
+        }
+
+        .countdown-item {
+            flex: 1;
+        }
+
+        .countdown-value {
+            display: block;
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(to bottom, #fff, #FFD700);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1;
+            margin-bottom: 5px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .countdown-label {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        .message-container {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: slideInRight 1.5s ease-out;
+        }
+
+        .message-title {
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 25px;
+            color: #FFD700;
+        }
+
+        .new-year-message {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .fireworks-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .firework {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #fff;
+        }
+
+        .year-display {
+            font-size: 8rem;
+            font-weight: 900;
+            text-align: center;
+            margin: 40px 0;
+            color: rgba(255, 255, 255, 0.1);
+            letter-spacing: 20px;
+            animation: pulse 4s infinite alternate;
+            user-select: none;
+        }
+
+        .image-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+
+        .image-item {
+            width: 200px;
+            height: 150px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transform: translateY(50px);
+            transition: transform 0.5s, opacity 0.5s;
+        }
+
+        .image-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .image-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .image-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, #FF8C00, #FF1493);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+            opacity: 0.7;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 20px;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInLeft {
+            from { 
+                opacity: 0;
+                transform: translateX(-100px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from { 
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% { 
+                opacity: 0.1;
+                transform: scale(1);
+            }
+            100% { 
+                opacity: 0.2;
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3rem;
+            }
+            
+            .countdown-value {
+                font-size: 2.5rem;
+            }
+            
+            .year-display {
+                font-size: 4rem;
+                letter-spacing: 10px;
+            }
+            
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 80%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="fireworks-container" id="fireworks"></div>
+    
+    <div class="container">
+        <header>
+            <h1>Selamat Tahun Baru 2026!</h1>
+            <p class="subtitle">Mari kita sambut tahun baru dengan penuh harapan dan kebahagiaan</p>
+        </header>
+        
+        <div class="year-display">2026</div>
+        
+        <div class="main-content">
+            <div class="countdown-container">
+                <h2 class="countdown-title">Hitungan Mundur Menuju 2026</h2>
+                <div class="countdown">
+                    <div class="countdown-item">
+                        <span class="countdown-value" id="days">00</span>
+                        <span class="countdown-label">Hari</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-value" id="hours">00</span>
+                        <span class="countdown-label">Jam</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-value" id="minutes">00</span>
+                        <span class="countdown-label">Menit</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-value" id="seconds">00</span>
+                        <span class="countdown-label">Detik</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="message-container">
+                <h2 class="message-title">Pesan Tahun Baru</h2>
+                <p class="new-year-message">
+                    Di penghujung tahun 2025, mari kita renungkan segala pengalaman yang telah kita lewati. 
+                    Tahun 2026 membawa harapan baru, kesempatan baru, dan semangat baru. 
+                    Semoga di tahun yang akan datang, kita semua diberikan kesehatan, kebahagiaan, 
+                    dan kesuksesan dalam setiap langkah yang kita ambil. Selamat Tahun Baru 2026!
+                </p>
+                <p class="new-year-message">
+                    Mari kita buka lembaran baru dengan hati yang penuh syukur dan optimisme. 
+                    Rayakan momen ini bersama orang-orang terkasih dan sambut masa depan dengan senyuman.
+                </p>
+            </div>
+        </div>
+        
+        <div class="image-gallery" id="imageGallery">
+            <!-- Gambar akan dimasukkan melalui JavaScript -->
+        </div>
+        
+        <div class="controls">
+            <button class="btn btn-primary" id="showImagesBtn">
+                <i class="fas fa-images"></i> Tampilkan Gambar
+            </button>
+            <button class="btn btn-secondary" id="hideImagesBtn">
+                <i class="fas fa-eye-slash"></i> Sembunyikan Gambar
+            </button>
+            <button class="btn btn-primary" id="moreFireworksBtn">
+                <i class="fas fa-fire"></i> Lebih Banyak Kembang Api
+            </button>
+            <button class="btn btn-secondary" id="playMusicBtn">
+                <i class="fas fa-music"></i> Putar Musik
+            </button>
+        </div>
+        
+        <footer class="footer">
+            <p>Dibuat dengan <i class="fas fa-heart" style="color: #ff4757;"></i> untuk menyambut Tahun Baru 2026</p>
+            <p>© 2025 - 2026 | Selamat Tahun Baru!</p>
+        </footer>
+    </div>
+
+    <audio id="newYearAudio" loop>
+        <source src="https://assets.mixkit.co/music/preview/mixkit-happy-new-year-983.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // Data gambar untuk galeri
+        const imageData = [
+            { url: "https://images.unsplash.com/photo-1579546929662-711aa81148cf?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", alt: "Kembang api tahun baru" },
+            { url: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", alt: "Perayaan tahun baru" },
+            { url: "https://images.unsplash.com/photo-1546182993-4d2e4ae4c2c9?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", alt: "Lampu kota malam tahun baru" },
+            { url: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", alt: "Pesta tahun baru" },
+            { url: "https://images.unsplash.com/photo-1571275172360-58d1c9e8a4b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", alt: "Anggur dan perayaan" },
+            { url: "https://images.unsplash.com/photo-1579546929518-9e396f3cc809?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", alt: "Latar belakang warna-warni" }
+        ];
+
+        // Elemen DOM
+        const daysElement = document.getElementById('days');
+        const hoursElement = document.getElementById('hours');
+        const minutesElement = document.getElementById('minutes');
+        const secondsElement = document.getElementById('seconds');
+        const imageGallery = document.getElementById('imageGallery');
+        const showImagesBtn = document.getElementById('showImagesBtn');
+        const hideImagesBtn = document.getElementById('hideImagesBtn');
+        const moreFireworksBtn = document.getElementById('moreFireworksBtn');
+        const playMusicBtn = document.getElementById('playMusicBtn');
+        const newYearAudio = document.getElementById('newYearAudio');
+        const fireworksContainer = document.getElementById('fireworks');
+
+        // Status musik
+        let isPlaying = false;
+
+        // Fungsi untuk mengisi galeri gambar
+        function populateGallery() {
+            imageData.forEach((image, index) => {
+                const imageItem = document.createElement('div');
+                imageItem.className = 'image-item';
+                imageItem.style.animationDelay = `${index * 0.2}s`;
+                
+                const img = document.createElement('img');
+                img.src = image.url;
+                img.alt = image.alt;
+                
+                imageItem.appendChild(img);
+                imageGallery.appendChild(imageItem);
+            });
+        }
+
+        // Fungsi untuk menampilkan gambar dengan animasi
+        function showImages() {
+            const imageItems = document.querySelectorAll('.image-item');
+            imageItems.forEach(item => {
+                item.classList.add('visible');
+            });
+        }
+
+        // Fungsi untuk menyembunyikan gambar
+        function hideImages() {
+            const imageItems = document.querySelectorAll('.image-item');
+            imageItems.forEach(item => {
+                item.classList.remove('visible');
+            });
+        }
+
+        // Fungsi untuk membuat kembang api
+        function createFirework(x, y) {
+            const firework = document.createElement('div');
+            firework.className = 'firework';
+            firework.style.left = `${x}px`;
+            firework.style.top = `${y}px`;
+            firework.style.backgroundColor = getRandomColor();
+            
+            fireworksContainer.appendChild(firework);
+            
+            // Animasi ledakan
+            const size = Math.random() * 50 + 10;
+            firework.animate([
+                { transform: 'scale(0)', opacity: 1 },
+                { transform: `scale(${size})`, opacity: 0 }
+            ], {
+                duration: Math.random() * 1000 + 500,
+                easing: 'ease-out'
+            });
+            
+            // Hapus elemen setelah animasi selesai
+            setTimeout(() => {
+                firework.remove();
+            }, 1500);
+        }
+
+        // Fungsi untuk membuat kembang api secara acak
+        function createRandomFireworks(count) {
+            for (let i = 0; i < count; i++) {
+                setTimeout(() => {
+                    const x = Math.random() * window.innerWidth;
+                    const y = Math.random() * window.innerHeight;
+                    createFirework(x, y);
+                }, i * 100);
+            }
+        }
+
+        // Fungsi untuk mendapatkan warna acak
+        function getRandomColor() {
+            const colors = ['#FFD700', '#FF8C00', '#FF1493', '#00BFFF', '#32CD32', '#FF4500'];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        // Fungsi untuk menghitung hitungan mundur
+        function updateCountdown() {
+            // Tetapkan tanggal target: 1 Januari 2026
+            const targetDate = new Date('January 1, 2026 00:00:00').getTime();
+            const now = new Date().getTime();
+            const timeLeft = targetDate - now;
+
+            // Hitung hari, jam, menit, detik
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+            // Tampilkan hasil
+            daysElement.textContent = days.toString().padStart(2, '0');
+            hoursElement.textContent = hours.toString().padStart(2, '0');
+            minutesElement.textContent = minutes.toString().padStart(2, '0');
+            secondsElement.textContent = seconds.toString().padStart(2, '0');
+
+            // Buat kembang api otomatis setiap 5 detik
+            if (seconds % 5 === 0) {
+                createRandomFireworks(3);
+            }
+        }
+
+        // Fungsi untuk memutar/menghentikan musik
+        function toggleMusic() {
+            if (isPlaying) {
+                newYearAudio.pause();
+                playMusicBtn.innerHTML = '<i class="fas fa-music"></i> Putar Musik';
+                isPlaying = false;
+            } else {
+                newYearAudio.play().then(() => {
+                    playMusicBtn.innerHTML = '<i class="fas fa-pause"></i> Jeda Musik';
+                    isPlaying = true;
+                }).catch(error => {
+                    console.log("Autoplay diblokir oleh browser. Klik tombol untuk memutar musik.");
+                    playMusicBtn.innerHTML = '<i class="fas fa-music"></i> Putar Musik (Klik)';
+                });
+            }
+        }
+
+        // Inisialisasi
+        function init() {
+            // Isi galeri gambar
+            populateGallery();
+            
+            // Mulai hitungan mundur
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+            
+            // Buat kembang api secara berkala
+            setInterval(() => {
+                createRandomFireworks(5);
+            }, 3000);
+            
+            // Event listeners untuk tombol
+            showImagesBtn.addEventListener('click', showImages);
+            hideImagesBtn.addEventListener('click', hideImages);
+            moreFireworksBtn.addEventListener('click', () => createRandomFireworks(20));
+            playMusicBtn.addEventListener('click', toggleMusic);
+            
+            // Buat kembang api saat mengklik di mana saja
+            document.addEventListener('click', (e) => {
+                createFirework(e.clientX, e.clientY);
+            });
+            
+            // Tampilkan gambar secara otomatis setelah 2 detik
+            setTimeout(showImages, 2000);
+        }
+
+        // Jalankan inisialisasi saat halaman dimuat
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
